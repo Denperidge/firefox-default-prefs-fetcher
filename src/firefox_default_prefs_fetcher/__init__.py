@@ -1,11 +1,13 @@
 from pathlib import Path
 from configparser import ConfigParser
-from shutil import copytree
+from os import name
+from shutil import copytree, ignore_patterns, rmtree
 
 from selenium import webdriver
 
 FIREFOX_ROOT = Path.home().joinpath(".mozilla/firefox").absolute() if name != "nt" else Path(getenv("APPDATA") + "/Mozilla/Firefox/").resolve()
 PROFILE_NAME = "firefox-default-prefs-fetcher"
+PROFILE_PATH = FIREFOX_ROOT.joinpath(PROFILE_NAME)
 
 # Copied from yokoffing/Betterfox/install.py. But also I wrote that and I'm writing this for that
 def get_default_profile_folder():
@@ -23,11 +25,21 @@ def get_default_profile_folder():
                 return FIREFOX_ROOT.joinpath(config_parser[section]["Path"])
 
 
-def new_profile(src):
-    dest = f"{Path(src).with_name(PROFILE_NAME)}"    
-    copytree(src, dest, ignore=ignore_patterns("*lock"))
+def create_new_profile():
+    default_profile_folder = get_default_profile_folder()
+    if PROFILE_PATH.exists():
+        print(f"{PROFILE_PATH} already exists.")
+        print(f"You can optionally overwrite it with the contents of {default_profile_folder}")
+        if input(f"Overwrite profile '{PROFILE_NAME}' [N/y]?: ").lower().strip()[0] != "y":
+            return    
+
+    dest = str(Path(default_profile_folder).with_name(PROFILE_NAME))
+    rmtree(dest)
+    copytree(default_profile_folder, dest, ignore=ignore_patterns("*lock"))
 
 
+def main():
+    create_new_profile()
 
 
 

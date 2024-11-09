@@ -16,6 +16,11 @@ license = {text = "MIT"}
 requires = ["setuptools>=61", "wheel"]
 build-backend = "setuptools.build_meta"
 
+[project.scripts]
+main = "src.firefox_default_prefs_fetcher:main"
 
 [tool.pdm]
 distribution = true
+
+[tool.pdm.scripts]
+start = {call = "src.firefox_default_prefs_fetcher:main"}

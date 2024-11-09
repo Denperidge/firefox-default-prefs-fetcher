@@ -4,6 +4,7 @@ from os import name
 from shutil import copytree, ignore_patterns, rmtree
 
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 
 FIREFOX_ROOT = Path.home().joinpath(".mozilla/firefox").absolute() if name != "nt" else Path(getenv("APPDATA") + "/Mozilla/Firefox/").resolve()
 PROFILE_NAME = "firefox-default-prefs-fetcher"
@@ -30,7 +31,7 @@ def create_new_profile():
     if PROFILE_PATH.exists():
         print(f"{PROFILE_PATH} already exists.")
         print(f"You can optionally overwrite it with the contents of {default_profile_folder}")
-        if input(f"Overwrite profile '{PROFILE_NAME}' [N/y]?: ").lower().strip()[0] != "y":
+        if not input(f"Overwrite profile '{PROFILE_NAME}' [N/y]?: ").lower().strip().startswith("y"):
             return    
 
     dest = str(Path(default_profile_folder).with_name(PROFILE_NAME))
@@ -40,8 +41,19 @@ def create_new_profile():
 
 def main():
     create_new_profile()
+    options = webdriver.FirefoxOptions()
+    options.profile = webdriver.FirefoxProfile(profile_directory=str(PROFILE_PATH))
+    
+    options.add_argument("about:config")
+    print("Starting driver...")
+    driver = webdriver.Firefox(options)
+
+    print("Find")
+    #driver.get("about:config")
 
 
+    driver.find_element(By.ID, "show-all").click()
+    
 
 
 #default_profile_folder = _get_default_profile_folder()

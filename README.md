@@ -1,0 +1,1 @@
+# firefox-default-prefs-fetcher

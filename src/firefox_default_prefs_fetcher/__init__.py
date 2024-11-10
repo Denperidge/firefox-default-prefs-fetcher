@@ -139,10 +139,6 @@ def main():
 
         print("Collected all preferences & their default values")
         
-        write_file(prefix + "defaults.min.json", dumps(default_preferences))
-        write_file(prefix + "defaults.json", dumps(default_preferences, indent=2))
-        print(f"Saved preferences/defaults to out/{prefix}defaults.json & out/${prefix}defaults.min.json")
-
     except Exception as e:
         print(e)
     finally:
@@ -150,3 +146,8 @@ def main():
             print("Closing Selenium driver...")
             driver.close()
             print("Driver closed")
+
+            write_file(prefix + "defaults.min.json", dumps(default_preferences))
+            write_file(prefix + "defaults.json", dumps(default_preferences, indent=2))
+            print(f"Saved preferences/defaults to out/{prefix}defaults.json & out/${prefix}defaults.min.json")
+

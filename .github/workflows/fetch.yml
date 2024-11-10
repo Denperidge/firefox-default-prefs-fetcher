@@ -1,0 +1,45 @@
+name: Fetch Firefox default preferenecs
+
+jobs:
+  fetch:
+    strategy:
+      matrix:
+        firefox: [132.0.1]
+        os: [ubuntu-latest] #, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout firefox-default-prefs-fetcher
+        uses: actions/checkout@v4
+
+      - name: Setup Firefox version ${{ matrix.firefox }}
+        uses: browser-actions/setup-firefox@v1
+        with: ${{ matrix.firefox }}
+      
+      - name: Setup PDM/Python
+        uses: pdm-project/setup-pdm@v4
+
+      - name: Install Python dependencies
+        run: pdm install
+      
+      - name: Run firefox-defaults-prefs-fetcher
+        run: pdm run start
+      
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.os }}-firefox-${{ matrix.firefox }}
+          path: out/*
+
+
+  release:
+    needs: fetch
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: *.json

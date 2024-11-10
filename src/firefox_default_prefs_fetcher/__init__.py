@@ -31,6 +31,10 @@ def get_default_profile_folder():
     config_parser = ConfigParser(strict=False)
     config_parser.read(config_path)
 
+    print(config_parser.keys())
+    print("--")
+    print(config_parser.values())
+
     for section in config_parser.sections():
         if "Default" in config_parser[section]:
             if config_parser[section]["Default"] == "1":

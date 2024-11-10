@@ -83,6 +83,12 @@ def main():
         driver.get("about:config")
 
 
+        # If 
+        try:
+            driver.find_element(By.ID, "warningButton").click()
+        except NoSuchElementException:
+            pass
+
         # Show all preferences
         driver.find_element(By.ID, "show-all").click()
         

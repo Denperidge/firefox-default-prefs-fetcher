@@ -1,14 +1,23 @@
 from pathlib import Path
 from configparser import ConfigParser
-from os import name
+from os import name, makedirs
 from shutil import copytree, ignore_patterns, rmtree
+from json import dumps
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
+OUT_DIR = "out/"
 FIREFOX_ROOT = Path.home().joinpath(".mozilla/firefox").absolute() if name != "nt" else Path(getenv("APPDATA") + "/Mozilla/Firefox/").resolve()
 PROFILE_NAME = "firefox-default-prefs-fetcher"
 PROFILE_PATH = FIREFOX_ROOT.joinpath(PROFILE_NAME)
+
+
+def write_file(filename, data, out_dir=True):
+    if out_dir:
+        filename = OUT_DIR + filename
+    with open(filename, "w", encoding="utf-8") as file:
+        file.write(data)
 
 # Copied from yokoffing/Betterfox/install.py. But also I wrote that and I'm writing this for that
 def get_default_profile_folder():
@@ -40,6 +49,7 @@ def create_new_profile():
 
 
 def main():
+    makedirs(OUT_DIR, exist_ok=True)
     create_new_profile()
     options = webdriver.FirefoxOptions()
     options.profile = webdriver.FirefoxProfile(profile_directory=str(PROFILE_PATH))
@@ -52,7 +62,29 @@ def main():
     #driver.get("about:config")
 
 
+    # Show all preferences
     driver.find_element(By.ID, "show-all").click()
+    
+    # Reset all changed values
+    reset_buttons = driver.find_elements(By.CLASS_NAME, "button-reset")
+    for button in reset_buttons:
+        button.click()
+    
+    
+    # Note custom/no-default/deprecated values
+    has_no_default = []
+    delete_buttons = driver.find_elements(By.CLASS_NAME, "button-delete")
+    for button in delete_buttons:
+        key_container = button.find_element(By.XPATH, "..").find_element(By.XPATH, "..").find_element(By.CSS_SELECTOR, "[scope='row']")
+        key_element = key_container.find_element(By.TAG_NAME, "span")
+        has_no_default.append(key_element.text)
+    
+    write_file("no_defaults.json", dumps(has_no_default))
+
+
+
+
+    
     
 
 

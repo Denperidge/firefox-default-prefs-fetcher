@@ -64,6 +64,9 @@ def main():
     if not RUNNING_IN_CI:
         create_new_profile()
         options.profile = webdriver.FirefoxProfile(profile_directory=str(PROFILE_PATH))
+    else:
+        options.add_argument("--headless")
+        
     
     options.add_argument("about:support")
     try:

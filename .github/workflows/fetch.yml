@@ -1,5 +1,9 @@
 name: Fetch Firefox default preferenecs
 
+on:
+  push:
+    tags: "*.*.*"
+
 jobs:
   fetch:
     strategy:
@@ -42,4 +46,4 @@ jobs:
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
-          files: *.json
+          files: "*.json"

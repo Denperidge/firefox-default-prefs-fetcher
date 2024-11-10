@@ -8,7 +8,7 @@ jobs:
   fetch:
     strategy:
       matrix:
-        firefox: [132.0.1]
+        firefox: ["132.0.1"]
         os: [ubuntu-latest] #, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:

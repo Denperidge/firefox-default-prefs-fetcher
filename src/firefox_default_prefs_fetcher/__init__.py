@@ -33,10 +33,6 @@ def get_default_profile_folder():
     config_parser = ConfigParser(strict=False)
     config_parser.read(config_path)
 
-    print(config_parser.keys())
-    print("--")
-    print(config_parser.values())
-
     for section in config_parser.sections():
         if "Default" in config_parser[section]:
             if config_parser[section]["Default"] == "1":
@@ -61,6 +57,7 @@ def create_prefix(platform, firefox_version):
     return f"{platform}-{firefox_version}-"
 
 def main():
+    driver = None
     makedirs(OUT_DIR, exist_ok=True)
     options = webdriver.FirefoxOptions()
 
@@ -132,4 +129,5 @@ def main():
     except Exception as e:
         print(e)
     finally:
-        driver.close()
+        if driver is not None:
+            driver.close()

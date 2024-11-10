@@ -20,7 +20,7 @@ build-backend = "setuptools.build_meta"
 main = "src.firefox_default_prefs_fetcher:main"
 
 [tool.pdm]
-distribution = true
+distribution = false
 
 [tool.pdm.scripts]
 start = {call = "src.firefox_default_prefs_fetcher:main"}

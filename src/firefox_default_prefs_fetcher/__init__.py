@@ -2,10 +2,11 @@ from pathlib import Path
 from configparser import ConfigParser
 from os import name, makedirs
 from shutil import copytree, ignore_patterns, rmtree
-from json import dumps
+from json import dumps, loads
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
 
 OUT_DIR = "out/"
 FIREFOX_ROOT = Path.home().joinpath(".mozilla/firefox").absolute() if name != "nt" else Path(getenv("APPDATA") + "/Mozilla/Firefox/").resolve()
@@ -56,40 +57,59 @@ def main():
     
     options.add_argument("about:config")
     print("Starting driver...")
-    driver = webdriver.Firefox(options)
+    try:
+        driver = webdriver.Firefox(options)
 
-    print("Find")
-    #driver.get("about:config")
-
-
-    # Show all preferences
-    driver.find_element(By.ID, "show-all").click()
-    
-    # Reset all changed values
-    reset_buttons = driver.find_elements(By.CLASS_NAME, "button-reset")
-    for button in reset_buttons:
-        button.click()
-    
-    
-    # Note custom/no-default/deprecated values
-    has_no_default = []
-    delete_buttons = driver.find_elements(By.CLASS_NAME, "button-delete")
-    for button in delete_buttons:
-        key_container = button.find_element(By.XPATH, "..").find_element(By.XPATH, "..").find_element(By.CSS_SELECTOR, "[scope='row']")
-        key_element = key_container.find_element(By.TAG_NAME, "span")
-        has_no_default.append(key_element.text)
-    
-    write_file("no_defaults.json", dumps(has_no_default))
+        print("Find")
+        #driver.get("about:config")
 
 
+        # Show all preferences
+        driver.find_element(By.ID, "show-all").click()
+        
+        # Reset all changed values
+        reset_buttons = driver.find_elements(By.CLASS_NAME, "button-reset")
+        for button in reset_buttons:
+            button.click()
+        
+        
+        # Note custom/no-default/deprecated values
+        no_defaults = []
+        delete_buttons = driver.find_elements(By.CLASS_NAME, "button-delete")
+        for button in delete_buttons:
+            key_container = button.find_element(By.XPATH, "..").find_element(By.XPATH, "..").find_element(By.CSS_SELECTOR, "[scope='row']")
+            key_element = key_container.find_element(By.TAG_NAME, "span")
+            no_defaults.append(key_element.text)
+        
+        write_file("no_defaults.json", dumps(no_defaults))
 
+        default_preferences = []
 
-    
-    
+        pref_rows = driver.find_element(By.ID, "prefs").find_elements(By.TAG_NAME, "tr")
+        for pref_row in pref_rows:
+            key = pref_row.find_element(By.TAG_NAME, "th").text
+            if key in no_defaults:
+                continue
+            try:
+                # If this element doesn't throw NoSuchElement, it's a custom value that slipped through
+                pref_row.find_element(By.CLASS_NAME, "button-delete")
+                continue
+            except NoSuchElementException as e:
+                pass
 
-
-#default_profile_folder = _get_default_profile_folder()
-
-#driver = webdriver.Firefox()
-
-#driver.get("about:config")
+            # This returns a json string with {value: ""}
+            pref = pref_row.find_element(By.CSS_SELECTOR, ".cell-value span").get_attribute("data-l10n-args")
+            if pref is None:
+                print(key, "has no default value, but wasn't found in no_defaults")
+                continue
+            
+            pref = loads(pref)
+            pref["key"] = key
+            default_preferences.append(pref)
+        
+        write_file("defaults.min.json", dumps(default_preferences))
+        write_file("defaults.json", dumps(default_preferences, indent=2))
+    except Exception as e:
+        print(e)
+    finally:
+        driver.close()

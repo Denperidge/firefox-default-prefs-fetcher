@@ -2,6 +2,7 @@ from pathlib import Path
 from configparser import ConfigParser
 from os import name, makedirs
 from platform import system
+from sys import argv
 from shutil import copytree, ignore_patterns, rmtree
 from json import dumps, loads
 
@@ -9,11 +10,12 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 
-EXPORT_NO_DEFAULTS = False
+RUNNING_IN_CI = "--ci" in argv
 OUT_DIR = "out/"
 FIREFOX_ROOT = Path.home().joinpath(".mozilla/firefox").absolute() if name != "nt" else Path(getenv("APPDATA") + "/Mozilla/Firefox/").resolve()
 PROFILE_NAME = "firefox-default-prefs-fetcher"
 PROFILE_PATH = FIREFOX_ROOT.joinpath(PROFILE_NAME)
+
 
 
 def write_file(filename, data, out_dir=True):
@@ -60,9 +62,11 @@ def create_prefix(platform, firefox_version):
 
 def main():
     makedirs(OUT_DIR, exist_ok=True)
-    create_new_profile()
     options = webdriver.FirefoxOptions()
-    options.profile = webdriver.FirefoxProfile(profile_directory=str(PROFILE_PATH))
+
+    if not RUNNING_IN_CI:
+        create_new_profile()
+        options.profile = webdriver.FirefoxProfile(profile_directory=str(PROFILE_PATH))
     
     options.add_argument("about:support")
     try:
@@ -96,7 +100,7 @@ def main():
             key_element = key_container.find_element(By.TAG_NAME, "span")
             no_defaults_found.append(key_element.text)
         
-        if EXPORT_NO_DEFAULTS:
+        if not RUNNING_IN_CI:
             write_file(prefix + "no_defaults_found.json", dumps(no_defaults_found))
 
         default_preferences = []

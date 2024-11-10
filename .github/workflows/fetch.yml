@@ -27,7 +27,7 @@ jobs:
         run: pdm install
       
       - name: Run firefox-defaults-prefs-fetcher
-        run: pdm run start
+        run: pdm run start --ci
       
       - name: Upload artifacts
         uses: actions/upload-artifact@v4

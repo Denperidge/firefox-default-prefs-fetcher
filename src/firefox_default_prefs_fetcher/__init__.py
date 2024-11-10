@@ -68,34 +68,36 @@ def main():
         options.add_argument("--headless")
         
     
-    options.add_argument("about:support")
+    options.add_argument("about:config")
     try:
         print("Starting driver...")
         driver = webdriver.Firefox(options)
-        firefox_version = driver.find_element(By.ID, "version-box").text
+        firefox_version = driver.capabilities["browserVersion"]  # Thanks to https://stackoverflow.com/a/58989044
         platform = system().lower()
         if platform == "":
             print("Couldn't determined platform!")
             exit(1)
         prefix = create_prefix(platform=platform, firefox_version=firefox_version)
 
-        print("Find")
-        driver.get("about:config")
-
-
-        # If 
+        # Bypass warning screen if it pops up
         try:
             driver.find_element(By.ID, "warningButton").click()
+            print("Bypassed default warning screen...")
         except NoSuchElementException:
-            pass
+            print("No warning screen detected, continuing...")
 
         # Show all preferences
         driver.find_element(By.ID, "show-all").click()
+        print("Clicked #show-all")
         
         # Reset all changed values
         reset_buttons = driver.find_elements(By.CLASS_NAME, "button-reset")
         for button in reset_buttons:
             button.click()
+        if len(reset_buttons) > 0:
+            print("Clicked reset buttons")
+        else:
+            print("No reset buttons found, cintinuing...")
         
         
         # Note custom/no-default/deprecated values
@@ -105,9 +107,11 @@ def main():
             key_container = button.find_element(By.XPATH, "..").find_element(By.XPATH, "..").find_element(By.CSS_SELECTOR, "[scope='row']")
             key_element = key_container.find_element(By.TAG_NAME, "span")
             no_defaults_found.append(key_element.text)
+        print("Preferences with no defaults parsed")
         
         if not RUNNING_IN_CI:
             write_file(prefix + "no_defaults_found.json", dumps(no_defaults_found))
+            print(f"Saved entries without default values to out/{prefix}no_defaults_found.json")
 
         default_preferences = []
 
@@ -132,11 +136,17 @@ def main():
             pref = loads(pref)
             pref["key"] = key
             default_preferences.append(pref)
+
+        print("Collected all preferences & their default values")
         
         write_file(prefix + "defaults.min.json", dumps(default_preferences))
         write_file(prefix + "defaults.json", dumps(default_preferences, indent=2))
+        print(f"Saved preferences/defaults to out/{prefix}defaults.json & out/${prefix}defaults.min.json")
+
     except Exception as e:
         print(e)
     finally:
         if driver is not None:
+            print("Closing Selenium driver...")
             driver.close()
+            print("Driver closed")

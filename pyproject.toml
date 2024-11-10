@@ -1,6 +1,6 @@
 [project]
 name = "firefox-default-prefs-fetcher"
-version = "1.0.3"
+version = "1.0.4"
 description = "Fetching the default settings of Firefox and outputting them into data"
 authors = [
     {name = "Denperidge", email = "cat@denperidge.com"},

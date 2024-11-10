@@ -1,6 +1,6 @@
 from pathlib import Path
 from configparser import ConfigParser
-from os import name, makedirs
+from os import name, makedirs, getenv
 from platform import system
 from sys import argv
 from shutil import copytree, ignore_patterns, rmtree
@@ -12,9 +12,9 @@ from selenium.common.exceptions import NoSuchElementException
 
 RUNNING_IN_CI = "--ci" in argv
 OUT_DIR = "out/"
-FIREFOX_ROOT = Path.home().joinpath(".mozilla/firefox").absolute() if name != "nt" else Path(getenv("APPDATA") + "/Mozilla/Firefox/").resolve()
 PROFILE_NAME = "firefox-default-prefs-fetcher"
-PROFILE_PATH = FIREFOX_ROOT.joinpath(PROFILE_NAME)
+FIREFOX_ROOT = "" if RUNNING_IN_CI else Path.home().joinpath(".mozilla/firefox").absolute() if name != "nt" else Path(getenv("APPDATA") + "/Mozilla/Firefox/").resolve()
+PROFILE_PATH = "" if RUNNING_IN_CI else FIREFOX_ROOT.joinpath(PROFILE_NAME)
 
 
 

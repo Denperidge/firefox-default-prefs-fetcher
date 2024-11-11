@@ -1,7 +1,6 @@
 from pathlib import Path
 from configparser import ConfigParser
 from os import name, makedirs, getenv
-from os.path import isfile
 from platform import system
 from sys import argv
 from shutil import copytree, ignore_patterns, rmtree
@@ -16,6 +15,8 @@ OUT_DIR = "out/"
 PROFILE_NAME = "firefox-default-prefs-fetcher"
 FIREFOX_ROOT = "" if RUNNING_IN_CI else Path.home().joinpath(".mozilla/firefox").absolute() if name != "nt" else Path(getenv("APPDATA") + "/Mozilla/Firefox/").resolve()
 PROFILE_PATH = "" if RUNNING_IN_CI else FIREFOX_ROOT.joinpath(PROFILE_NAME)
+
+
 
 def write_file(filename, data, out_dir=True):
     if out_dir:
@@ -57,11 +58,8 @@ def create_prefix(platform, firefox_version):
 
 def main():
     driver = None
-    prefix = None
-
     makedirs(OUT_DIR, exist_ok=True)
     options = webdriver.FirefoxOptions()
-    
 
     if not RUNNING_IN_CI:
         create_new_profile()
@@ -69,17 +67,11 @@ def main():
     else:
         options.add_argument("--headless")
         
-        
     
     options.add_argument("about:config")
     try:
         print("Starting driver...")
-        executable = argv.pop()
-        if isfile(executable):
-            service = webdriver.FirefoxService(executable_path=Path(executable).with_stem("geckodriver"))
-            driver = webdriver.Firefox(options=options, service=service)
-        else:
-            driver = webdriver.Firefox(options)
+        driver = webdriver.Firefox(options)
         firefox_version = driver.capabilities["browserVersion"]  # Thanks to https://stackoverflow.com/a/58989044
         platform = system().lower()
         if platform == "":

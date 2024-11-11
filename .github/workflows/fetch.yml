@@ -12,8 +12,8 @@ jobs:
         os:
           - name: ubuntu-latest
             uninstall: sudo apt-get purge -y
-          - name: windows-latest 
-            uninstall: choco uninstall -y
+          #- name: windows-latest 
+          #  uninstall: choco uninstall -y
           #  macos-latest
     runs-on: ${{ matrix.os.name }}
     steps:

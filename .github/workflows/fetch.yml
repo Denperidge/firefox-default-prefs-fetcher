@@ -15,7 +15,7 @@ jobs:
           - name: windows-latest 
             uninstall: choco uninstall -y
           #  macos-latest
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.os.name }}
     steps:
       - name: Uninstall pre-installed Firefox
         run: ${{ matrix.os.uninstall }} firefox
@@ -40,7 +40,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.os }}-firefox-${{ matrix.firefox }}
+          name: ${{ matrix.os.name }}-firefox-${{ matrix.firefox }}
           path: out/*
 
 

@@ -61,14 +61,15 @@ def main():
     makedirs(OUT_DIR, exist_ok=True)
     options = webdriver.FirefoxOptions()
 
+    options.add_argument("about:config")
     if not RUNNING_IN_CI:
         create_new_profile()
         options.profile = webdriver.FirefoxProfile(profile_directory=str(PROFILE_PATH))
     else:
         options.add_argument("--headless")
-        
-    
-    options.add_argument("about:config")
+
+    default_preferences = []
+
     try:
         print("Starting driver...")
         driver = webdriver.Firefox(options)
@@ -113,7 +114,6 @@ def main():
             write_file(prefix + "no_defaults_found.json", dumps(no_defaults_found))
             print(f"Saved entries without default values to out/{prefix}no_defaults_found.json")
 
-        default_preferences = []
 
         pref_rows = driver.find_element(By.ID, "prefs").find_elements(By.TAG_NAME, "tr")
         for pref_row in pref_rows:
@@ -147,7 +147,9 @@ def main():
             driver.close()
             print("Driver closed")
 
+        if len(default_preferences) > 0:
             write_file(prefix + "defaults.min.json", dumps(default_preferences))
             write_file(prefix + "defaults.json", dumps(default_preferences, indent=2))
             print(f"Saved preferences/defaults to out/{prefix}defaults.json & out/${prefix}defaults.min.json")
-
+        else:
+            print("No default preferences found, skipping write")

@@ -12,6 +12,14 @@ jobs:
         os: [ubuntu-latest, windows-latest]  #  macos-latest
     runs-on: ${{ matrix.os }}
     steps:
+      - if: ${{ matrix.os }} == "ubuntu-latest"
+        name: (Ubuntu) Uninstall pre-installed Firefox
+        run: sudo apt-get purge -y firefox
+      
+      - if: ${{ matrix.os }} == "windows-latest"
+        name: (Windows) Uninstall pre-installed Firefox
+        run: choco uninstall -y firefox
+
       - name: Checkout firefox-default-prefs-fetcher
         uses: actions/checkout@v4
 

@@ -262,7 +262,7 @@ jobs:
       - name: Setup Geckodriver version ${{ matrix.firefox.geckodriver }}
         uses: browser-actions/setup-geckodriver@v0.0.0
         with:
-          geckodriver_version: ${{ matrix.firefox.geckodriver }}
+          geckodriver-version: ${{ matrix.firefox.geckodriver }}
 
       - name: Setup PDM/Python
         uses: pdm-project/setup-pdm@v4

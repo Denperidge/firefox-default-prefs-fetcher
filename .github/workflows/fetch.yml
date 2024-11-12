@@ -8,7 +8,168 @@ jobs:
   fetch:
     strategy:
       matrix:
-        firefox: ["132.0.1", "127.0.1"] #,"131.0.3","131.0.2","130.0.1","129.0.2","129.0.1","128.4.0esr","128.3.1esr","128.3.0esr","128.2.0esr","128.1.0esr","128.0.3","128.0.2","127.0.2","127.0.1","126.0.1","125.0.3","125.0.2","125.0.1","124.0.2","124.0.1","123.0.1","122.0.1","121.0.1","120.0.1","119.0.1","118.0.2","118.0.1","117.0.1","116.0.3","116.0.2","116.0.1","115.9.1esr","115.9.0esr","115.8.0esr","115.7.0esr","115.6.0esr","115.5.0esr","115.4.0esr","115.3.1esr","115.3.0esr","115.2.1esr","115.2.0esr","115.1.0esr","115.0.3","115.0.3esr","115.0.2","115.0.2esr","115.0.1","115.0.1esr","114.0.2","114.0.1","113.0.2","113.0.1","112.0.2","112.0.1","111.0.1","110.0.1","109.0.1","108.0.2","108.0.1","107.0.1","106.0.5","106.0.4","106.0.3","106.0.2","106.0.1","105.0.3","105.0.2","105.0.1","104.0.2","104.0.1","103.0.2","103.0.1","102.9.0esr","102.8.0esr","102.7.0esr","102.6.0esr","102.5.0esr","102.4.0esr","102.3.0esr","102.2.0esr","102.1.0esr","102.0.1","102.0.1esr"]
+        firefox: #["132.0.1", "127.0.1"] #,"131.0.3","131.0.2","130.0.1","129.0.2","129.0.1","128.4.0esr","128.3.1esr","128.3.0esr","128.2.0esr","128.1.0esr","128.0.3","128.0.2","127.0.2","127.0.1","126.0.1","125.0.3","125.0.2","125.0.1","124.0.2","124.0.1","123.0.1","122.0.1","121.0.1","120.0.1","119.0.1","118.0.2","118.0.1","117.0.1","116.0.3","116.0.2","116.0.1","115.9.1esr","115.9.0esr","115.8.0esr","115.7.0esr","115.6.0esr","115.5.0esr","115.4.0esr","115.3.1esr","115.3.0esr","115.2.1esr","115.2.0esr","115.1.0esr","115.0.3","115.0.3esr","115.0.2","115.0.2esr","115.0.1","115.0.1esr","114.0.2","114.0.1","113.0.2","113.0.1","112.0.2","112.0.1","111.0.1","110.0.1","109.0.1","108.0.2","108.0.1","107.0.1","106.0.5","106.0.4","106.0.3","106.0.2","106.0.1","105.0.3","105.0.2","105.0.1","104.0.2","104.0.1","103.0.2","103.0.1","102.9.0esr","102.8.0esr","102.7.0esr","102.6.0esr","102.5.0esr","102.4.0esr","102.3.0esr","102.2.0esr","102.1.0esr","102.0.1","102.0.1esr"]
+          - firefox: 132.0.2
+            geckodriver: 0.17.0
+          - firefox: 103.0.2
+            geckodriver: 0.17.0
+          - firefox: 103.0.1
+            geckodriver: 0.17.0
+          - firefox: '103.0'
+            geckodriver: 0.17.0
+          - firefox: 102.15.1esr
+            geckodriver: 0.17.0
+          - firefox: 102.15.0esr
+            geckodriver: 0.17.0
+          - firefox: 102.14.0esr
+            geckodriver: 0.17.0
+          - firefox: 102.13.0esr
+            geckodriver: 0.17.0
+          - firefox: 102.12.0esr
+            geckodriver: 0.17.0
+          - firefox: 102.11.0esr
+            geckodriver: 0.17.0
+          - firefox: 102.10.0esr
+            geckodriver: 0.17.0
+          - firefox: 102.9.0esr
+            geckodriver: 0.17.0
+          - firefox: 102.8.0esr
+            geckodriver: 0.17.0
+          - firefox: 102.7.0esr
+            geckodriver: 0.17.0
+          - firefox: 102.6.0esr
+            geckodriver: 0.17.0
+          - firefox: 102.5.0esr
+            geckodriver: 0.17.0
+          - firefox: 102.4.0esr
+            geckodriver: 0.17.0
+          - firefox: 102.3.0esr
+            geckodriver: 0.17.0
+          - firefox: 102.2.0esr
+            geckodriver: 0.17.0
+          - firefox: 102.1.0esr
+            geckodriver: 0.17.0
+          - firefox: 102.0.1esr
+            geckodriver: 0.17.0
+          - firefox: 102.0.1
+            geckodriver: 0.17.0
+          - firefox: 102.0esr
+            geckodriver: 0.17.0
+          - firefox: '102.0'
+            geckodriver: 0.17.0
+          - firefox: 101.0.1
+            geckodriver: 0.17.0
+          - firefox: '101.0'
+            geckodriver: 0.17.0
+          - firefox: 100.0.2
+            geckodriver: 0.17.0
+          - firefox: 100.0.1
+            geckodriver: 0.17.0
+          - firefox: '100.0'
+            geckodriver: 0.17.0
+          - firefox: '60.0'
+            geckodriver: 0.17.0
+          - firefox: 59.0.3
+            geckodriver: 0.17.0
+          - firefox: 59.0.2
+            geckodriver: 0.17.0
+          - firefox: 59.0.1
+            geckodriver: 0.17.0
+          - firefox: '59.0'
+            geckodriver: 0.17.0
+          - firefox: 58.0.2
+            geckodriver: 0.17.0
+          - firefox: 58.0.1
+            geckodriver: 0.17.0
+          - firefox: '58.0'
+            geckodriver: 0.17.0
+          - firefox: 57.0.4
+            geckodriver: 0.17.0
+          - firefox: 57.0.3
+            geckodriver: 0.17.0
+          - firefox: 57.0.2
+            geckodriver: 0.17.0
+          - firefox: 57.0.1
+            geckodriver: 0.17.0
+          - firefox: '57.0'
+            geckodriver: 0.17.0
+          - firefox: 56.0.2
+            geckodriver: 0.17.0
+          - firefox: 56.0.1
+            geckodriver: 0.17.0
+          - firefox: '56.0'
+            geckodriver: 0.17.0
+          - firefox: 55.0.3
+            geckodriver: 0.17.0
+          - firefox: 55.0.2
+            geckodriver: 0.17.0
+          - firefox: 55.0.1
+            geckodriver: 0.17.0
+          - firefox: '55.0'
+            geckodriver: 0.17.0
+          - firefox: 54.0.1
+            geckodriver: 0.17.0
+          - firefox: '54.0'
+            geckodriver: 0.17.0
+          - firefox: 53.0.3
+            geckodriver: 0.17.0
+          - firefox: 53.0.2
+            geckodriver: 0.17.0
+          - firefox: '53.0'
+            geckodriver: 0.17.0
+          - firefox: 52.9.0esr
+            geckodriver: 0.17.0
+          - firefox: 52.8.1esr
+            geckodriver: 0.17.0
+          - firefox: 52.8.0esr
+            geckodriver: 0.17.0
+          - firefox: 52.7.4esr
+            geckodriver: 0.17.0
+          - firefox: 52.7.3esr
+            geckodriver: 0.17.0
+          - firefox: 52.7.2esr
+            geckodriver: 0.17.0
+          - firefox: 52.7.1esr
+            geckodriver: 0.17.0
+          - firefox: 52.7.0esr
+            geckodriver: 0.17.0
+          - firefox: 52.6.0esr
+            geckodriver: 0.17.0
+          - firefox: 52.5.3esr
+            geckodriver: 0.17.0
+          - firefox: 52.5.2esr
+            geckodriver: 0.17.0
+          - firefox: 52.5.0esr
+            geckodriver: 0.17.0
+          - firefox: 52.4.1esr
+            geckodriver: 0.17.0
+          - firefox: 52.4.0esr
+            geckodriver: 0.17.0
+          - firefox: 52.3.0esr
+            geckodriver: 0.17.0
+          - firefox: 52.2.1esr
+            geckodriver: 0.17.0
+          - firefox: 52.2.0esr
+            geckodriver: 0.17.0
+          - firefox: 52.1.2esr
+            geckodriver: 0.17.0
+          - firefox: 52.1.1esr
+            geckodriver: 0.17.0
+          - firefox: 52.1.0esr
+            geckodriver: 0.17.0
+          - firefox: 52.0.2
+            geckodriver: 0.17.0
+          - firefox: 52.0.2esr
+            geckodriver: 0.17.0
+          - firefox: 52.0.1esr
+            geckodriver: 0.17.0
+          - firefox: 52.0.1
+            geckodriver: 0.17.0
+          - firefox: 52.0esr
+            geckodriver: 0.17.0
+          - firefox: '52.0'
+            geckodriver: 0.17.0
+
         os:
           - name: ubuntu-latest
             uninstall: sudo apt-get purge -y
@@ -17,17 +178,24 @@ jobs:
           #  macos-latest
     runs-on: ${{ matrix.os.name }}
     steps:
-      #- name: Uninstall pre-installed Firefox
-      #  run: ${{ matrix.os.uninstall }} firefox
+      - name: Uninstall pre-installed Firefox & GeckoDriver
+        run: ${{ matrix.os.uninstall }} firefox geckodriver
 
       - name: Checkout firefox-default-prefs-fetcher
         uses: actions/checkout@v4
 
-      #- name: Setup Firefox version ${{ matrix.firefox }}
-      #  uses: browser-actions/setup-firefox@v1
-      #  with:
-      #    firefox-version: ${{ matrix.firefox }}
-      
+      - name: Setup Firefox version ${{ matrix.firefox.firefox }}
+        uses: browser-actions/setup-firefox@v1
+        with:
+          firefox-version: ${{ matrix.firefox.firefox }}
+                    
+
+      - name: Setup Geckodriver
+        uses: browser-actions/setup-geckodriver@v0.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          geckodriver_version: ${{ matrix.firefox.geckodriver }}
+
       - name: Setup PDM/Python
         uses: pdm-project/setup-pdm@v4
 

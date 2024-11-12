@@ -1,19 +1,22 @@
 [project]
 name = "firefox-default-prefs-fetcher"
-version = "1.0.14"
+version = "1.1.0"
 description = "Fetching the default settings of Firefox and outputting them into data"
 authors = [
     {name = "Denperidge", email = "cat@denperidge.com"},
 ]
 dependencies = [
     "selenium>=4.26.1",
-    "beautifulsoup4>=4.12.3",
-    "pyquery>=2.0.1",
 ]
 requires-python = ">=3.11"
 readme = "README.md"
 license = {text = "MIT"}
 
+[project.optional-dependencies]
+get_versions = [
+    "pyyaml>=6.0.2",
+    "pyquery>=2.0.1",
+]
 [build-system]
 requires = ["setuptools>=61", "wheel"]
 build-backend = "setuptools.build_meta"

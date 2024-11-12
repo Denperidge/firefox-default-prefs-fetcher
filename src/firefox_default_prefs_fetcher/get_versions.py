@@ -2,6 +2,7 @@ from urllib.request import urlopen
 from io import BytesIO
 from json import dumps
 from re import compile, MULTILINE
+from yaml import dump as dump_yaml
 
 from pyquery import PyQuery as pq
 
@@ -122,8 +123,16 @@ def get_versions_main():
             else:
                 print(f"geckodriver {geckodriver_version}: {firefox_version} is below minimum ({min_major_firefox_version}). Skipping.")
                 continue
-        
     
+    actions_firefox_array = []
+    for firefox_version in firefox_newest_geckodriver:
+        data = {}
+        data["firefox"] = firefox_version
+        data["geckodriver"] = geckodriver_version
+        actions_firefox_array.append(data)
     write_file("firefox_newest_geckodriver.min.json", dumps(firefox_newest_geckodriver))
     write_file("firefox_newest_geckodriver.json", dumps(firefox_newest_geckodriver, indent=2))
-                    
+        
+    write_file("firefox-matrix.yaml", dump_yaml(actions_firefox_array))
+    #with open(DEFAULT_OUT_DIR + "firefox-matrix.yaml", "w", encoding="UTF-8") as file:
+

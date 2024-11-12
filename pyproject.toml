@@ -7,6 +7,8 @@ authors = [
 ]
 dependencies = [
     "selenium>=4.26.1",
+    "beautifulsoup4>=4.12.3",
+    "pyquery>=2.0.1",
 ]
 requires-python = ">=3.11"
 readme = "README.md"
@@ -24,3 +26,4 @@ distribution = false
 
 [tool.pdm.scripts]
 start = {call = "src.firefox_default_prefs_fetcher:main"}
+get_versions = {call = "src.firefox_default_prefs_fetcher:get_versions"}

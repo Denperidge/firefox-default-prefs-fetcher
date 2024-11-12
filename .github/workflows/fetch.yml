@@ -17,16 +17,16 @@ jobs:
           #  macos-latest
     runs-on: ${{ matrix.os.name }}
     steps:
-      - name: Uninstall pre-installed Firefox
-        run: ${{ matrix.os.uninstall }} firefox
+      #- name: Uninstall pre-installed Firefox
+      #  run: ${{ matrix.os.uninstall }} firefox
 
       - name: Checkout firefox-default-prefs-fetcher
         uses: actions/checkout@v4
 
-      - name: Setup Firefox version ${{ matrix.firefox }}
-        uses: browser-actions/setup-firefox@v1
-        with:
-          firefox-version: ${{ matrix.firefox }}
+      #- name: Setup Firefox version ${{ matrix.firefox }}
+      #  uses: browser-actions/setup-firefox@v1
+      #  with:
+      #    firefox-version: ${{ matrix.firefox }}
       
       - name: Setup PDM/Python
         uses: pdm-project/setup-pdm@v4

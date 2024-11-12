@@ -147,7 +147,6 @@ jobs:
             geckodriver: 0.17.0
           - firefox: '77.0'
             geckodriver: 0.17.0
-            geckodriver: 0.17.0
           - firefox: '69.0'
             geckodriver: 0.17.0
           - firefox: 68.12.0esr

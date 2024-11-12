@@ -82,6 +82,7 @@ def get_firefox_versions():
     return firefox_versions
 
 def get_major_version(version):
+    print(version.split("."))
     return int(version.split(".")[0])
 
 def get_versions_main():
@@ -125,15 +126,20 @@ def get_versions_main():
                 continue
     
     actions_firefox_array = []
+    added_major_versions = []
     added_esr_versions = []
     for firefox_version in firefox_newest_geckodriver:
         data = {}
         data["firefox"] = firefox_version
-        data["geckodriver"] = geckodriver_version
-        actions_firefox_array.append(data)
-        if "esr" in data["firefox"].lower():
-            added_esr_versions.append(firefox_version)
-    
+        data["geckodriver"] = firefox_newest_geckodriver[firefox_version]
+
+        major_version = get_major_version(firefox_version)
+        if major_version not in added_major_versions:
+            added_major_versions.append(major_version)
+            actions_firefox_array.append(data)
+            if "esr" in data["firefox"].lower():
+                added_esr_versions.append(firefox_version)
+
 
     for added_esr_version in added_esr_versions:
         def does_not_have_esr_version(firefox_version_object):
@@ -149,9 +155,10 @@ def get_versions_main():
             return firefox_version_object["firefox"].lower().replace("esr", "") != added_esr_version
         actions_firefox_array = list(filter(does_not_have_esr_version, actions_firefox_array))
 
+
     write_file("firefox_newest_geckodriver.min.json", dumps(firefox_newest_geckodriver))
     write_file("firefox_newest_geckodriver.json", dumps(firefox_newest_geckodriver, indent=2))
-        
+
     write_file("firefox-matrix.yaml", dump_yaml(actions_firefox_array))
     #with open(DEFAULT_OUT_DIR + "firefox-matrix.yaml", "w", encoding="UTF-8") as file:
 

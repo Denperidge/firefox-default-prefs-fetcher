@@ -1,4 +1,4 @@
-name: Fetch Firefox default preferenecs
+name: Fetch Firefox default preferences
 
 on:
   push:
@@ -11,9 +11,249 @@ jobs:
         firefox: #["132.0.1", "127.0.1"] #,"131.0.3","131.0.2","130.0.1","129.0.2","129.0.1","128.4.0esr","128.3.1esr","128.3.0esr","128.2.0esr","128.1.0esr","128.0.3","128.0.2","127.0.2","127.0.1","126.0.1","125.0.3","125.0.2","125.0.1","124.0.2","124.0.1","123.0.1","122.0.1","121.0.1","120.0.1","119.0.1","118.0.2","118.0.1","117.0.1","116.0.3","116.0.2","116.0.1","115.9.1esr","115.9.0esr","115.8.0esr","115.7.0esr","115.6.0esr","115.5.0esr","115.4.0esr","115.3.1esr","115.3.0esr","115.2.1esr","115.2.0esr","115.1.0esr","115.0.3","115.0.3esr","115.0.2","115.0.2esr","115.0.1","115.0.1esr","114.0.2","114.0.1","113.0.2","113.0.1","112.0.2","112.0.1","111.0.1","110.0.1","109.0.1","108.0.2","108.0.1","107.0.1","106.0.5","106.0.4","106.0.3","106.0.2","106.0.1","105.0.3","105.0.2","105.0.1","104.0.2","104.0.1","103.0.2","103.0.1","102.9.0esr","102.8.0esr","102.7.0esr","102.6.0esr","102.5.0esr","102.4.0esr","102.3.0esr","102.2.0esr","102.1.0esr","102.0.1","102.0.1esr"]
           - firefox: 132.0.2
             geckodriver: 0.17.0
+          - firefox: 132.0.1
+            geckodriver: 0.17.0
+          - firefox: '132.0'
+            geckodriver: 0.17.0
+          - firefox: 131.0.3
+            geckodriver: 0.17.0
+          - firefox: 131.0.2
+            geckodriver: 0.17.0
+          - firefox: '131.0'
+            geckodriver: 0.17.0
+          - firefox: 130.0.1
+            geckodriver: 0.17.0
+          - firefox: '130.0'
+            geckodriver: 0.17.0
+          - firefox: 129.0.2
+            geckodriver: 0.17.0
+          - firefox: 129.0.1
+            geckodriver: 0.17.0
+          - firefox: '129.0'
+            geckodriver: 0.17.0
+          - firefox: 128.4.0esr
+            geckodriver: 0.17.0
+          - firefox: 128.3.1esr
+            geckodriver: 0.17.0
+          - firefox: 128.3.0esr
+            geckodriver: 0.17.0
+          - firefox: 128.2.0esr
+            geckodriver: 0.17.0
+          - firefox: 128.1.0esr
+            geckodriver: 0.17.0
+          - firefox: 128.0.3
+            geckodriver: 0.17.0
+          - firefox: 128.0.2
+            geckodriver: 0.17.0
+          - firefox: 128.0esr
+            geckodriver: 0.17.0
+          - firefox: 127.0.2
+            geckodriver: 0.17.0
+          - firefox: 127.0.1
+            geckodriver: 0.17.0
+          - firefox: '127.0'
+            geckodriver: 0.17.0
+          - firefox: 126.0.1
+            geckodriver: 0.17.0
+          - firefox: '126.0'
+            geckodriver: 0.17.0
+          - firefox: 125.0.3
+            geckodriver: 0.17.0
+          - firefox: 125.0.2
+            geckodriver: 0.17.0
+          - firefox: 125.0.1
+            geckodriver: 0.17.0
+          - firefox: 124.0.2
+            geckodriver: 0.17.0
+          - firefox: 124.0.1
+            geckodriver: 0.17.0
+          - firefox: '124.0'
+            geckodriver: 0.17.0
+          - firefox: 123.0.1
+            geckodriver: 0.17.0
+          - firefox: '123.0'
+            geckodriver: 0.17.0
+          - firefox: 122.0.1
+            geckodriver: 0.17.0
+          - firefox: '122.0'
+            geckodriver: 0.17.0
+          - firefox: 121.0.1
+            geckodriver: 0.17.0
+          - firefox: '121.0'
+            geckodriver: 0.17.0
+          - firefox: 120.0.1
+            geckodriver: 0.17.0
+          - firefox: '120.0'
+            geckodriver: 0.17.0
+          - firefox: 119.0.1
+            geckodriver: 0.17.0
+          - firefox: '119.0'
+            geckodriver: 0.17.0
+          - firefox: 118.0.2
+            geckodriver: 0.17.0
+          - firefox: 118.0.1
+            geckodriver: 0.17.0
+          - firefox: '118.0'
+            geckodriver: 0.17.0
+          - firefox: 117.0.1
+            geckodriver: 0.17.0
+          - firefox: '117.0'
+            geckodriver: 0.17.0
+          - firefox: 116.0.3
+            geckodriver: 0.17.0
+          - firefox: 116.0.2
+            geckodriver: 0.17.0
+          - firefox: 116.0.1
+            geckodriver: 0.17.0
+          - firefox: '116.0'
+            geckodriver: 0.17.0
+          - firefox: 115.17.0esr
+            geckodriver: 0.17.0
+          - firefox: 115.16.1esr
+            geckodriver: 0.17.0
+          - firefox: 115.16.0esr
+            geckodriver: 0.17.0
+          - firefox: 115.15.0esr
+            geckodriver: 0.17.0
+          - firefox: 115.14.0esr
+            geckodriver: 0.17.0
+          - firefox: 115.13.0esr
+            geckodriver: 0.17.0
+          - firefox: 115.12.0esr
+            geckodriver: 0.17.0
+          - firefox: 115.11.0esr
+            geckodriver: 0.17.0
+          - firefox: 115.10.0esr
+            geckodriver: 0.17.0
+          - firefox: 115.9.1esr
+            geckodriver: 0.17.0
+          - firefox: 115.9.0esr
+            geckodriver: 0.17.0
+          - firefox: 115.8.0esr
+            geckodriver: 0.17.0
+          - firefox: 115.7.0esr
+            geckodriver: 0.17.0
+          - firefox: 115.6.0esr
+            geckodriver: 0.17.0
+          - firefox: 115.5.0esr
+            geckodriver: 0.17.0
+          - firefox: 115.4.0esr
+            geckodriver: 0.17.0
+          - firefox: 115.3.1esr
+            geckodriver: 0.17.0
+          - firefox: 115.3.0esr
+            geckodriver: 0.17.0
+          - firefox: 115.2.1esr
+            geckodriver: 0.17.0
+          - firefox: 115.2.0esr
+            geckodriver: 0.17.0
+          - firefox: 115.1.0esr
+            geckodriver: 0.17.0
+          - firefox: 115.0.3esr
+            geckodriver: 0.17.0
+          - firefox: 115.0.2esr
+            geckodriver: 0.17.0
+          - firefox: 115.0.1esr
+            geckodriver: 0.17.0
+          - firefox: 115.0esr
+            geckodriver: 0.17.0
+          - firefox: 114.0.2
+            geckodriver: 0.17.0
+          - firefox: 114.0.1
+            geckodriver: 0.17.0
+          - firefox: '114.0'
+            geckodriver: 0.17.0
+          - firefox: 113.0.2
+            geckodriver: 0.17.0
+          - firefox: 113.0.1
+            geckodriver: 0.17.0
+          - firefox: '113.0'
+            geckodriver: 0.17.0
+          - firefox: 112.0.2
+            geckodriver: 0.17.0
+          - firefox: 112.0.1
+            geckodriver: 0.17.0
+          - firefox: '112.0'
+            geckodriver: 0.17.0
+          - firefox: 111.0.1
+            geckodriver: 0.17.0
+          - firefox: '111.0'
+            geckodriver: 0.17.0
+          - firefox: 110.0.1
+            geckodriver: 0.17.0
+          - firefox: '110.0'
+            geckodriver: 0.17.0
+          - firefox: 109.0.1
+            geckodriver: 0.17.0
+          - firefox: '109.0'
+            geckodriver: 0.17.0
+          - firefox: 108.0.2
+            geckodriver: 0.17.0
+          - firefox: 108.0.1
+            geckodriver: 0.17.0
+          - firefox: '108.0'
+            geckodriver: 0.17.0
+          - firefox: 107.0.1
+            geckodriver: 0.17.0
+          - firefox: '107.0'
+            geckodriver: 0.17.0
+          - firefox: 106.0.5
+            geckodriver: 0.17.0
+          - firefox: 106.0.4
+            geckodriver: 0.17.0
+          - firefox: 106.0.3
+            geckodriver: 0.17.0
+          - firefox: 106.0.2
+            geckodriver: 0.17.0
+          - firefox: 106.0.1
+            geckodriver: 0.17.0
+          - firefox: '106.0'
+            geckodriver: 0.17.0
+          - firefox: 105.0.3
+            geckodriver: 0.17.0
+          - firefox: 105.0.2
+            geckodriver: 0.17.0
+          - firefox: 105.0.1
+            geckodriver: 0.17.0
+          - firefox: '105.0'
+            geckodriver: 0.17.0
+          - firefox: 104.0.2
+            geckodriver: 0.17.0
+          - firefox: 104.0.1
+            geckodriver: 0.17.0
+          - firefox: '104.0'
+            geckodriver: 0.17.0
           - firefox: 103.0.2
             geckodriver: 0.17.0
           - firefox: 103.0.1
+            geckodriver: 0.17.0
+          - firefox: '103.0'
+            geckodriver: 0.17.0
+          - firefox: 102.15.1esr
+            geckodriver: 0.17.0
+          - firefox: 102.15.0esr
+            geckodriver: 0.17.0
+          - firefox: 102.14.0esr
+            geckodriver: 0.17.0
+          - firefox: 102.13.0esr
+            geckodriver: 0.17.0
+          - firefox: 102.12.0esr
+            geckodriver: 0.17.0
+          - firefox: 102.11.0esr
+            geckodriver: 0.17.0
+          - firefox: 102.10.0esr
+            geckodriver: 0.17.0
+          - firefox: 102.9.0esr
+            geckodriver: 0.17.0
+          - firefox: 102.8.0esr
+            geckodriver: 0.17.0
+          - firefox: 102.7.0esr
+            geckodriver: 0.17.0
+          - firefox: 102.6.0esr
+            geckodriver: 0.17.0
+          - firefox: 102.5.0esr
+            geckodriver: 0.17.0
+          - firefox: 102.4.0esr
             geckodriver: 0.17.0
           - firefox: 102.3.0esr
             geckodriver: 0.17.0
@@ -23,11 +263,7 @@ jobs:
             geckodriver: 0.17.0
           - firefox: 102.0.1esr
             geckodriver: 0.17.0
-          - firefox: 102.0.1
-            geckodriver: 0.17.0
           - firefox: 102.0esr
-            geckodriver: 0.17.0
-          - firefox: '102.0'
             geckodriver: 0.17.0
           - firefox: 101.0.1
             geckodriver: 0.17.0
@@ -39,7 +275,357 @@ jobs:
             geckodriver: 0.17.0
           - firefox: '100.0'
             geckodriver: 0.17.0
-          - firefox: '60.0'
+          - firefox: 99.0.1
+            geckodriver: 0.17.0
+          - firefox: '99.0'
+            geckodriver: 0.17.0
+          - firefox: 98.0.2
+            geckodriver: 0.17.0
+          - firefox: 98.0.1
+            geckodriver: 0.17.0
+          - firefox: '98.0'
+            geckodriver: 0.17.0
+          - firefox: 97.0.2
+            geckodriver: 0.17.0
+          - firefox: 97.0.1
+            geckodriver: 0.17.0
+          - firefox: '97.0'
+            geckodriver: 0.17.0
+          - firefox: 96.0.3
+            geckodriver: 0.17.0
+          - firefox: 96.0.2
+            geckodriver: 0.17.0
+          - firefox: 96.0.1
+            geckodriver: 0.17.0
+          - firefox: '96.0'
+            geckodriver: 0.17.0
+          - firefox: 95.0.2
+            geckodriver: 0.17.0
+          - firefox: 95.0.1
+            geckodriver: 0.17.0
+          - firefox: '95.0'
+            geckodriver: 0.17.0
+          - firefox: 94.0.2
+            geckodriver: 0.17.0
+          - firefox: 94.0.1
+            geckodriver: 0.17.0
+          - firefox: '94.0'
+            geckodriver: 0.17.0
+          - firefox: '93.0'
+            geckodriver: 0.17.0
+          - firefox: 92.0.1
+            geckodriver: 0.17.0
+          - firefox: '92.0'
+            geckodriver: 0.17.0
+          - firefox: 91.13.0esr
+            geckodriver: 0.17.0
+          - firefox: 91.12.0esr
+            geckodriver: 0.17.0
+          - firefox: 91.11.0esr
+            geckodriver: 0.17.0
+          - firefox: 91.10.0esr
+            geckodriver: 0.17.0
+          - firefox: 91.9.1esr
+            geckodriver: 0.17.0
+          - firefox: 91.9.0esr
+            geckodriver: 0.17.0
+          - firefox: 91.8.0esr
+            geckodriver: 0.17.0
+          - firefox: 91.7.1esr
+            geckodriver: 0.17.0
+          - firefox: 91.7.0esr
+            geckodriver: 0.17.0
+          - firefox: 91.6.1esr
+            geckodriver: 0.17.0
+          - firefox: 91.6.0esr
+            geckodriver: 0.17.0
+          - firefox: 91.5.1esr
+            geckodriver: 0.17.0
+          - firefox: 91.5.0esr
+            geckodriver: 0.17.0
+          - firefox: 91.4.1esr
+            geckodriver: 0.17.0
+          - firefox: 91.4.0esr
+            geckodriver: 0.17.0
+          - firefox: 91.3.0esr
+            geckodriver: 0.17.0
+          - firefox: 91.2.0esr
+            geckodriver: 0.17.0
+          - firefox: 91.1.0esr
+            geckodriver: 0.17.0
+          - firefox: 91.0.2
+            geckodriver: 0.17.0
+          - firefox: 91.0.1esr
+            geckodriver: 0.17.0
+          - firefox: 91.0esr
+            geckodriver: 0.17.0
+          - firefox: 90.0.2
+            geckodriver: 0.17.0
+          - firefox: 90.0.1
+            geckodriver: 0.17.0
+          - firefox: '90.0'
+            geckodriver: 0.17.0
+          - firefox: 89.0.2
+            geckodriver: 0.17.0
+          - firefox: 89.0.1
+            geckodriver: 0.17.0
+          - firefox: '89.0'
+            geckodriver: 0.17.0
+          - firefox: 88.0.1
+            geckodriver: 0.17.0
+          - firefox: '88.0'
+            geckodriver: 0.17.0
+          - firefox: '87.0'
+            geckodriver: 0.17.0
+          - firefox: 86.0.1
+            geckodriver: 0.17.0
+          - firefox: '86.0'
+            geckodriver: 0.17.0
+          - firefox: 85.0.2
+            geckodriver: 0.17.0
+          - firefox: 85.0.1
+            geckodriver: 0.17.0
+          - firefox: '85.0'
+            geckodriver: 0.17.0
+          - firefox: 84.0.2
+            geckodriver: 0.17.0
+          - firefox: 84.0.1
+            geckodriver: 0.17.0
+          - firefox: '84.0'
+            geckodriver: 0.17.0
+          - firefox: '83.0'
+            geckodriver: 0.17.0
+          - firefox: 82.0.3
+            geckodriver: 0.17.0
+          - firefox: 82.0.2
+            geckodriver: 0.17.0
+          - firefox: 82.0.1
+            geckodriver: 0.17.0
+          - firefox: '82.0'
+            geckodriver: 0.17.0
+          - firefox: 81.0.2
+            geckodriver: 0.17.0
+          - firefox: 81.0.1
+            geckodriver: 0.17.0
+          - firefox: '81.0'
+            geckodriver: 0.17.0
+          - firefox: 80.0.1
+            geckodriver: 0.17.0
+          - firefox: '80.0'
+            geckodriver: 0.17.0
+          - firefox: '79.0'
+            geckodriver: 0.17.0
+          - firefox: 78.15.0esr
+            geckodriver: 0.17.0
+          - firefox: 78.14.0esr
+            geckodriver: 0.17.0
+          - firefox: 78.13.0esr
+            geckodriver: 0.17.0
+          - firefox: 78.12.0esr
+            geckodriver: 0.17.0
+          - firefox: 78.11.0esr
+            geckodriver: 0.17.0
+          - firefox: 78.10.1esr
+            geckodriver: 0.17.0
+          - firefox: 78.10.0esr
+            geckodriver: 0.17.0
+          - firefox: 78.9.0esr
+            geckodriver: 0.17.0
+          - firefox: 78.8.0esr
+            geckodriver: 0.17.0
+          - firefox: 78.7.1esr
+            geckodriver: 0.17.0
+          - firefox: 78.7.0esr
+            geckodriver: 0.17.0
+          - firefox: 78.6.1esr
+            geckodriver: 0.17.0
+          - firefox: 78.6.0esr
+            geckodriver: 0.17.0
+          - firefox: 78.5.0esr
+            geckodriver: 0.17.0
+          - firefox: 78.4.1esr
+            geckodriver: 0.17.0
+          - firefox: 78.4.0esr
+            geckodriver: 0.17.0
+          - firefox: 78.3.1esr
+            geckodriver: 0.17.0
+          - firefox: 78.3.0esr
+            geckodriver: 0.17.0
+          - firefox: 78.2.0esr
+            geckodriver: 0.17.0
+          - firefox: 78.1.0esr
+            geckodriver: 0.17.0
+          - firefox: 78.0.2esr
+            geckodriver: 0.17.0
+          - firefox: 78.0.1esr
+            geckodriver: 0.17.0
+          - firefox: 78.0esr
+            geckodriver: 0.17.0
+          - firefox: 77.0.1
+            geckodriver: 0.17.0
+          - firefox: '77.0'
+            geckodriver: 0.17.0
+          - firefox: 76.0.1
+            geckodriver: 0.17.0
+          - firefox: '76.0'
+            geckodriver: 0.17.0
+          - firefox: '75.0'
+            geckodriver: 0.17.0
+          - firefox: 74.0.1
+            geckodriver: 0.17.0
+          - firefox: '74.0'
+            geckodriver: 0.17.0
+          - firefox: 73.0.1
+            geckodriver: 0.17.0
+          - firefox: '73.0'
+            geckodriver: 0.17.0
+          - firefox: 72.0.2
+            geckodriver: 0.17.0
+          - firefox: 72.0.1
+            geckodriver: 0.17.0
+          - firefox: '72.0'
+            geckodriver: 0.17.0
+          - firefox: '71.0'
+            geckodriver: 0.17.0
+          - firefox: 70.0.1
+            geckodriver: 0.17.0
+          - firefox: '70.0'
+            geckodriver: 0.17.0
+          - firefox: 69.0.3
+            geckodriver: 0.17.0
+          - firefox: 69.0.2
+            geckodriver: 0.17.0
+          - firefox: 69.0.1
+            geckodriver: 0.17.0
+          - firefox: '69.0'
+            geckodriver: 0.17.0
+          - firefox: 68.12.0esr
+            geckodriver: 0.17.0
+          - firefox: 68.11.0esr
+            geckodriver: 0.17.0
+          - firefox: 68.10.0esr
+            geckodriver: 0.17.0
+          - firefox: 68.9.0esr
+            geckodriver: 0.17.0
+          - firefox: 68.8.0esr
+            geckodriver: 0.17.0
+          - firefox: 68.7.0esr
+            geckodriver: 0.17.0
+          - firefox: 68.6.1esr
+            geckodriver: 0.17.0
+          - firefox: 68.6.0esr
+            geckodriver: 0.17.0
+          - firefox: 68.5.0esr
+            geckodriver: 0.17.0
+          - firefox: 68.4.2esr
+            geckodriver: 0.17.0
+          - firefox: 68.4.1esr
+            geckodriver: 0.17.0
+          - firefox: 68.4.0esr
+            geckodriver: 0.17.0
+          - firefox: 68.3.0esr
+            geckodriver: 0.17.0
+          - firefox: 68.2.0esr
+            geckodriver: 0.17.0
+          - firefox: 68.1.0esr
+            geckodriver: 0.17.0
+          - firefox: 68.0.2esr
+            geckodriver: 0.17.0
+          - firefox: 68.0.1esr
+            geckodriver: 0.17.0
+          - firefox: 68.0esr
+            geckodriver: 0.17.0
+          - firefox: 67.0.4
+            geckodriver: 0.17.0
+          - firefox: 67.0.3
+            geckodriver: 0.17.0
+          - firefox: 67.0.2
+            geckodriver: 0.17.0
+          - firefox: 67.0.1
+            geckodriver: 0.17.0
+          - firefox: '67.0'
+            geckodriver: 0.17.0
+          - firefox: 66.0.5
+            geckodriver: 0.17.0
+          - firefox: 66.0.4
+            geckodriver: 0.17.0
+          - firefox: 66.0.3
+            geckodriver: 0.17.0
+          - firefox: 66.0.2
+            geckodriver: 0.17.0
+          - firefox: 66.0.1
+            geckodriver: 0.17.0
+          - firefox: '66.0'
+            geckodriver: 0.17.0
+          - firefox: 65.0.2
+            geckodriver: 0.17.0
+          - firefox: 65.0.1
+            geckodriver: 0.17.0
+          - firefox: '65.0'
+            geckodriver: 0.17.0
+          - firefox: 64.0.2
+            geckodriver: 0.17.0
+          - firefox: '64.0'
+            geckodriver: 0.17.0
+          - firefox: 63.0.3
+            geckodriver: 0.17.0
+          - firefox: 63.0.1
+            geckodriver: 0.17.0
+          - firefox: '63.0'
+            geckodriver: 0.17.0
+          - firefox: 62.0.3
+            geckodriver: 0.17.0
+          - firefox: 62.0.2
+            geckodriver: 0.17.0
+          - firefox: '62.0'
+            geckodriver: 0.17.0
+          - firefox: 61.0.2
+            geckodriver: 0.17.0
+          - firefox: 61.0.1
+            geckodriver: 0.17.0
+          - firefox: '61.0'
+            geckodriver: 0.17.0
+          - firefox: 60.9.0esr
+            geckodriver: 0.17.0
+          - firefox: 60.8.0esr
+            geckodriver: 0.17.0
+          - firefox: 60.7.2esr
+            geckodriver: 0.17.0
+          - firefox: 60.7.1esr
+            geckodriver: 0.17.0
+          - firefox: 60.7.0esr
+            geckodriver: 0.17.0
+          - firefox: 60.6.3esr
+            geckodriver: 0.17.0
+          - firefox: 60.6.2esr
+            geckodriver: 0.17.0
+          - firefox: 60.6.1esr
+            geckodriver: 0.17.0
+          - firefox: 60.6.0esr
+            geckodriver: 0.17.0
+          - firefox: 60.5.2esr
+            geckodriver: 0.17.0
+          - firefox: 60.5.1esr
+            geckodriver: 0.17.0
+          - firefox: 60.5.0esr
+            geckodriver: 0.17.0
+          - firefox: 60.4.0esr
+            geckodriver: 0.17.0
+          - firefox: 60.3.0esr
+            geckodriver: 0.17.0
+          - firefox: 60.2.2esr
+            geckodriver: 0.17.0
+          - firefox: 60.2.1esr
+            geckodriver: 0.17.0
+          - firefox: 60.2.0esr
+            geckodriver: 0.17.0
+          - firefox: 60.1.0esr
+            geckodriver: 0.17.0
+          - firefox: 60.0.2esr
+            geckodriver: 0.17.0
+          - firefox: 60.0.1esr
+            geckodriver: 0.17.0
+          - firefox: 60.0esr
             geckodriver: 0.17.0
           - firefox: 59.0.3
             geckodriver: 0.17.0
@@ -129,18 +715,13 @@ jobs:
             geckodriver: 0.17.0
           - firefox: 52.1.0esr
             geckodriver: 0.17.0
-          - firefox: 52.0.2
-            geckodriver: 0.17.0
           - firefox: 52.0.2esr
             geckodriver: 0.17.0
           - firefox: 52.0.1esr
             geckodriver: 0.17.0
-          - firefox: 52.0.1
-            geckodriver: 0.17.0
           - firefox: 52.0esr
             geckodriver: 0.17.0
-          - firefox: '52.0'
-            geckodriver: 0.17.0
+
 
         os:
           - name: ubuntu-latest

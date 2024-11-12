@@ -125,11 +125,30 @@ def get_versions_main():
                 continue
     
     actions_firefox_array = []
+    added_esr_versions = []
     for firefox_version in firefox_newest_geckodriver:
         data = {}
         data["firefox"] = firefox_version
         data["geckodriver"] = geckodriver_version
         actions_firefox_array.append(data)
+        if "esr" in data["firefox"].lower():
+            added_esr_versions.append(firefox_version)
+    
+
+    for added_esr_version in added_esr_versions:
+        def does_not_have_esr_version(firefox_version_object):
+            firefox_version = firefox_version_object["firefox"].lower()
+            if "esr" in firefox_version:
+                return True
+            else:
+                if firefox_version == added_esr_version.lower().replace("esr", ""):
+                    print(f"{firefox_version} == {added_esr_version}")
+                    return False
+                else:
+                    return True
+            return firefox_version_object["firefox"].lower().replace("esr", "") != added_esr_version
+        actions_firefox_array = list(filter(does_not_have_esr_version, actions_firefox_array))
+
     write_file("firefox_newest_geckodriver.min.json", dumps(firefox_newest_geckodriver))
     write_file("firefox_newest_geckodriver.json", dumps(firefox_newest_geckodriver, indent=2))
         

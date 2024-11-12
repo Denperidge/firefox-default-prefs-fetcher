@@ -259,10 +259,9 @@ jobs:
           firefox-version: ${{ matrix.firefox.firefox }}
                     
 
-      - name: Setup Geckodriver
+      - name: Setup Geckodriver version ${{ matrix.firefox.geckodriver }}
         uses: browser-actions/setup-geckodriver@v0.0.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           geckodriver_version: ${{ matrix.firefox.geckodriver }}
 
       - name: Setup PDM/Python

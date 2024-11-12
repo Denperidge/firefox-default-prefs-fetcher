@@ -1,13 +1,13 @@
 from urllib.request import urlopen
 from io import BytesIO
 from json import dumps
-from re import compile
+from re import compile, MULTILINE
 
 from pyquery import PyQuery as pq
 
 from .get_preferences import DEFAULT_OUT_DIR, write_file
 
-REGEX_MATCH_SEMANTIC_VERSIONING = compile(r"\d*\.\d(\.\d*)")
+REGEX_MATCH_SEMANTIC_VERSIONING = compile(r"^\d*\.\d*(\.\d*)?(esr)?/", MULTILINE)
 
 class GeckodriverVersion():
     def __init__(self, geckodriver_version, min_firefox_version, max_firefox_version):
@@ -65,14 +65,13 @@ def get_firefox_versions():
     hrefs = pq(url="https://ftp.mozilla.org/pub/firefox/releases/").find("table a")
     versions = set()
     for href in hrefs:
-        version = pq(href).text().replace("/", "")
-        if "funnelcake" not in version and REGEX_MATCH_SEMANTIC_VERSIONING.match(version) is not None:
-            versions.add(version)
+        version = pq(href).text()
+        if REGEX_MATCH_SEMANTIC_VERSIONING.match(version) is not None:
+            versions.add(version.replace("/", ""))
     
     versions = list(versions)
-    def sorter(version):
-        return version.replace(".", "").replace("esr", "")
-    versions.sort(key=sorter)
+    # from https://stackoverflow.com/a/2574090
+    versions.sort(reverse=True, key=lambda v: [int(n) for n in v.replace("esr", "").split(".")])
 
     print(versions)        
     

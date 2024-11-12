@@ -14,7 +14,6 @@ from selenium.common.exceptions import NoSuchElementException
 DEFAULT_OUT_DIR = "out/"
 DEFAULT_PROFILE_NAME = "firefox-default-prefs-fetcher"
 DEFAULT_FIREFOX_DATA_DIR = Path.home().joinpath(".mozilla/firefox").absolute() if name != "nt" else Path(getenv("APPDATA") + "/Mozilla/Firefox/").resolve()
-DEFAULT_FIREFOX_PROFILE_PATH = DEFAULT_FIREFOX_DATA_DIR.joinpath(DEFAULT_PROFILE_NAME)
 
 
 
@@ -41,51 +40,85 @@ def get_default_profile_folder():
                 return DEFAULT_FIREFOX_DATA_DIR.joinpath(config_parser[section]["Path"])
 
 
-def create_new_profile():
+def create_new_profile(firefox_data_dir=DEFAULT_FIREFOX_DATA_DIR, new_firefox_profile_name=DEFAULT_PROFILE_NAME):
+    new_firefox_profile_path = Path(firefox_data_dir).joinpath(new_firefox_profile_name)
     default_profile_folder = get_default_profile_folder()
-    if DEFAULT_FIREFOX_PROFILE_PATH.exists():
-        print(f"{DEFAULT_FIREFOX_PROFILE_PATH} already exists.")
+
+    # If new profile already exists 
+    if new_firefox_profile_path.exists():
+        print(f"{new_firefox_profile_path} already exists.")
         print(f"You can optionally overwrite it with the contents of {default_profile_folder}")
-        if not input(f"Overwrite profile '{DEFAULT_PROFILE_NAME}' [N/y]?: ").lower().strip().startswith("y"):
-            return    
-
-    dest = str(Path(default_profile_folder).with_name(DEFAULT_PROFILE_NAME))
-    rmtree(dest)
+        # Allow a (default) option to skip creating the new profile
+        if not input(f"Overwrite profile '{new_firefox_profile_name}' [N/y]?: ").lower().strip().startswith("y"):
+            return new_firefox_profile_path
+        else:
+            pass  # Clarity
+    
+    # Remove new profile if it exists
+    rmtree(new_firefox_profile_path)
+    # Copy default profile folder to new profile path
     copytree(default_profile_folder, dest, ignore=ignore_patterns("*lock"))
-
+    return new_firefox_profile_path
 
 def create_prefix(platform, firefox_version):
     return f"{platform}-{firefox_version}-"
 
 def main():
     argparser = ArgumentParser()
-    argparser.add_argument("--ci", action="store_true", default=False, help="")
-    argparser.add_argument("--browser-version", "-bv", default=None, help="")
-    argparser.add_argument("-")
+    argparser.add_argument("--headless", action="store_true", default=False, help="")
+    argparser.add_argument("--ci", action="store_true", default=False, help="Disable profile backup, as such not requiring a default profile to exist before running. Implies headless")
+    argparser.add_argument("--browser-version", "-bv", default=None, help="Which version of Firefox to use. Selenium will download it if it can't find it locally. Defaults to None, which will use your installed Firefox")
+    argparser.add_argument("--firefox-data-dir", "--firefox-data", default=DEFAULT_FIREFOX_DATA_DIR, help=f"Path to Firefox data dir. Defaults to {DEFAULT_FIREFOX_DATA_DIR}")
+    argparser.add_argument("--profile-name", default=DEFAULT_PROFILE_NAME)
+    argparser.add_argument("--continue-if-version-mismatch", action="store_true", default=False)
+
+    platform = system().lower()
+    if platform == "":
+        print("Couldn't determined platform!")
+        exit(1)
+
+    args = argparser.parse_args()
+    if args.ci:
+        args.headless = True
+        #args.force_downloads = True
 
     driver = None
     makedirs(DEFAULT_OUT_DIR, exist_ok=True)
     options = webdriver.FirefoxOptions()
 
     options.add_argument("about:config")
-    if not RUNNING_IN_CI:
-        create_new_profile()
-        options.profile = webdriver.FirefoxProfile(profile_directory=str(DEFAULT_FIREFOX_PROFILE_PATH))
-    else:
+    if not args.ci:
+        new_profile = create_new_profile(args.firefox_data_dir, args.profile_name)
+        options.profile = webdriver.FirefoxProfile(profile_directory=str(new_profile))
+    
+    if args.browser_version:
+        options.browser_version = args.browser_version
+        print(f"Browser version selected: '{options.browser_version}'")
+
+    
+    if args.headless:
         options.add_argument("--headless")
+    
 
     default_preferences = []
 
     try:
         print("Starting driver...")
         driver = webdriver.Firefox(options)
-        options.browser_version = 
-        firefox_version = driver.capabilities["browserVersion"]  # Thanks to https://stackoverflow.com/a/58989044
-        platform = system().lower()
-        if platform == "":
-            print("Couldn't determined platform!")
-            exit(1)
-        prefix = create_prefix(platform=platform, firefox_version=firefox_version)
+
+        detected_browser_version = driver.capabilities["browserVersion"]  # Thanks to https://stackoverflow.com/a/58989044
+        prefix = create_prefix(platform=platform, firefox_version=detected_browser_version)
+        print(f"Detected browser version: '{detected_browser_version}'")
+
+        if args.browser_version:
+            try:
+                assert detected_browser_version == args.browser_version
+            except AssertionError as e:
+                if args.continue_if_version_mismatch:
+                    print("--continue-on-version-mismatch specified, continuing...")
+                else:
+                    raise e
+                
 
         # Bypass warning screen if it pops up
         try:
@@ -117,7 +150,7 @@ def main():
             no_defaults_found.append(key_element.text)
         print("Preferences with no defaults parsed")
         
-        if not RUNNING_IN_CI:
+        if not running_in_ci:
             write_file(prefix + "no_defaults_found.json", dumps(no_defaults_found))
             print(f"Saved entries without default values to out/{prefix}no_defaults_found.json")
 

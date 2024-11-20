@@ -211,7 +211,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.os.name }}-firefox-${{ matrix.firefox }}
+          name: ${{ matrix.os.name }}-firefox-${{ matrix.firefox.firefox }}
           path: out/*
 
 

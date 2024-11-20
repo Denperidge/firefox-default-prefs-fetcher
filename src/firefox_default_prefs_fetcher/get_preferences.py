@@ -6,6 +6,7 @@ from sys import argv
 from shutil import copytree, ignore_patterns, rmtree
 from json import dumps, loads
 from argparse import ArgumentParser
+from time import sleep
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -106,6 +107,9 @@ def get_preferences_main():
         print("Starting driver...")
         driver = webdriver.Firefox(options)
 
+        if args.ci:
+            sleep(5)  # Might help with marionette decode problem
+
         detected_browser_version = driver.capabilities["browserVersion"]  # Thanks to https://stackoverflow.com/a/58989044
         prefix = create_prefix(platform=platform, firefox_version=detected_browser_version)
         print(f"Detected browser version: '{detected_browser_version}'")
@@ -118,7 +122,6 @@ def get_preferences_main():
                     print("--continue-on-version-mismatch specified, continuing...")
                 else:
                     raise e
-                
 
         # Bypass warning screen if it pops up
         try:

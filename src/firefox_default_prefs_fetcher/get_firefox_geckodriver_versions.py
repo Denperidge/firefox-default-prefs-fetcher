@@ -1,21 +1,17 @@
+# Builtin imports
 from urllib.request import urlopen
 from io import BytesIO
 from json import dumps
 from re import compile, MULTILINE
 from yaml import dump as dump_yaml
 
+# Package imports
 from pyquery import PyQuery as pq
 
-from .get_preferences import DEFAULT_OUT_DIR, write_file
+# Local imports
+from .get_default_preferences import write_file
 
 REGEX_MATCH_SEMANTIC_VERSIONING = compile(r"^\d*\.\d*(\.\d*)?(esr)?/", MULTILINE)
-
-class GeckodriverVersion():
-    def __init__(self, geckodriver_version, min_firefox_version, max_firefox_version):
-        self.geckodriver_version = geckodriver_version
-        self.min_firefox_version = min_firefox_version
-        if max_firefox_version == "n/a":
-            self.max_firefox_version = max_firefox_version
 
 def get_text_from_element(element, remove_spaces=False):
     text = pq(element).text()
@@ -26,9 +22,8 @@ def get_text_from_element(element, remove_spaces=False):
 
 def get_data(url):
     return urlopen(url)
-    #return data
 
-def get_geckodriver_versions():
+def get_geckodriver_versions(out_dir):
     geckodriver_page = pq(url="https://firefox-source-docs.mozilla.org/testing/geckodriver/Support.html")
     
     geckodriver_versions = []
@@ -58,13 +53,13 @@ def get_geckodriver_versions():
 
     #print(geckodriver_versions)
         
-    write_file("geckodriver_versions.json", dumps(geckodriver_versions, indent=2))
-    write_file("geckodriver_versions.min.json", dumps(geckodriver_versions))
+    write_file("geckodriver_versions.json", dumps(geckodriver_versions, indent=2), out_dir)
+    write_file("geckodriver_versions.min.json", dumps(geckodriver_versions), out_dir)
     
     return geckodriver_versions
 
 
-def get_firefox_versions():
+def get_firefox_versions(out_dir):
     hrefs = pq(url="https://ftp.mozilla.org/pub/firefox/releases/").find("table a")
     firefox_versions = set()
     for href in hrefs:
@@ -76,20 +71,19 @@ def get_firefox_versions():
     # from https://stackoverflow.com/a/2574090
     firefox_versions.sort(reverse=True, key=lambda v: [int(n) for n in v.replace("esr", "").split(".")])
 
-    write_file("firefox_versions.json", dumps(firefox_versions, indent=2))
-    write_file("firefox_versions.min.json", dumps(firefox_versions))
+    write_file("firefox_versions.json", dumps(firefox_versions, indent=2), out_dir)
+    write_file("firefox_versions.min.json", dumps(firefox_versions), out_dir)
     
     return firefox_versions
 
 def get_major_version(version):
-    print(version.split("."))
     return int(version.split(".")[0])
 
-def get_versions_main():
+def main(args):
 
     # These are both sorted from newest to oldest
-    geckodriver_versions = get_geckodriver_versions()
-    firefox_versions = get_firefox_versions()
+    geckodriver_versions = get_geckodriver_versions(args.out_dir)
+    firefox_versions = get_firefox_versions(args.out_dir)
     firefox_newest_geckodriver = {}
 
     for firefox_version in firefox_versions:
@@ -156,9 +150,8 @@ def get_versions_main():
         actions_firefox_array = list(filter(does_not_have_esr_version, actions_firefox_array))
 
 
-    write_file("firefox_newest_geckodriver.min.json", dumps(firefox_newest_geckodriver))
-    write_file("firefox_newest_geckodriver.json", dumps(firefox_newest_geckodriver, indent=2))
+    write_file("firefox_newest_geckodriver.min.json", dumps(firefox_newest_geckodriver), args.out_dir)
+    write_file("firefox_newest_geckodriver.json", dumps(firefox_newest_geckodriver, indent=2), args.out_dir)
 
-    write_file("firefox-matrix.yaml", dump_yaml(actions_firefox_array))
-    #with open(DEFAULT_OUT_DIR + "firefox-matrix.yaml", "w", encoding="UTF-8") as file:
+    write_file("firefox-matrix.yaml", dump_yaml(actions_firefox_array), args.out_dir)
 

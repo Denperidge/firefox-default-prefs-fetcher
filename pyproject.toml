@@ -1,6 +1,6 @@
 [project]
 name = "firefox-default-prefs-fetcher"
-version = "1.2.6"
+version = "2.0.0"
 description = "Fetching the default settings of Firefox and outputting them into data"
 authors = [
     {name = "Denperidge", email = "cat@denperidge.com"},
@@ -22,11 +22,11 @@ requires = ["setuptools>=61", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project.scripts]
-main = "src.firefox_default_prefs_fetcher:main"
+cli = "src.firefox_default_prefs_fetcher:cli"
 
 [tool.pdm]
 distribution = false
 
 [tool.pdm.scripts]
-start = {call = "src.firefox_default_prefs_fetcher:main"}
-get_versions = {call = "src.firefox_default_prefs_fetcher:get_versions"}
+start = {call = "src.firefox_default_prefs_fetcher:cli"}
+cli = {call = "src.firefox_default_prefs_fetcher:cli"}

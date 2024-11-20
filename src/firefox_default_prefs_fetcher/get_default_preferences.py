@@ -1,32 +1,26 @@
 from pathlib import Path
 from configparser import ConfigParser
-from os import name, makedirs, getenv
 from platform import system
 from sys import argv
 from shutil import copytree, ignore_patterns, rmtree
 from json import dumps, loads
-from argparse import ArgumentParser
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 
-DEFAULT_OUT_DIR = "out/"
-DEFAULT_PROFILE_NAME = "firefox-default-prefs-fetcher"
-DEFAULT_FIREFOX_DATA_DIR = Path.home().joinpath(".mozilla/firefox").absolute() if name != "nt" else Path(getenv("APPDATA") + "/Mozilla/Firefox/").resolve()
 
 
 
-
-def write_file(filename, data, out_dir=True):
+def write_file(filename, data, out_dir=None):
     if out_dir:
-        filename = DEFAULT_OUT_DIR + filename
+        filename = out_dir + filename
     with open(filename, "w", encoding="utf-8") as file:
         file.write(data)
 
 # Copied from yokoffing/Betterfox/install.py. But also I wrote that and I'm writing this for that
-def get_default_profile_folder():
-    config_path = DEFAULT_FIREFOX_DATA_DIR.joinpath("profiles.ini")
+def get_default_profile_folder(firefox_data_dir):
+    config_path = Path(firefox_data_dir).joinpath("profiles.ini")
     
     print(f"Reading {config_path}...")
 
@@ -37,12 +31,12 @@ def get_default_profile_folder():
         if "Default" in config_parser[section]:
             if config_parser[section]["Default"] == "1":
                 print("Default detected: " + section)
-                return DEFAULT_FIREFOX_DATA_DIR.joinpath(config_parser[section]["Path"])
+                return firefox_data_dir.joinpath(config_parser[section]["Path"])
 
 
-def create_new_profile(firefox_data_dir=DEFAULT_FIREFOX_DATA_DIR, new_firefox_profile_name=DEFAULT_PROFILE_NAME):
+def create_new_profile(firefox_data_dir, new_firefox_profile_name):
     new_firefox_profile_path = Path(firefox_data_dir).joinpath(new_firefox_profile_name)
-    default_profile_folder = get_default_profile_folder()
+    default_profile_folder = get_default_profile_folder(firefox_data_dir)
 
     # If new profile already exists 
     if new_firefox_profile_path.exists():
@@ -63,27 +57,18 @@ def create_new_profile(firefox_data_dir=DEFAULT_FIREFOX_DATA_DIR, new_firefox_pr
 def create_prefix(platform, firefox_version):
     return f"{platform}-{firefox_version}-"
 
-def get_preferences_main():
-    argparser = ArgumentParser()
-    argparser.add_argument("--headless", action="store_true", default=False, help="")
-    argparser.add_argument("--ci", action="store_true", default=False, help="Disable profile backup, as such not requiring a default profile to exist before running. Implies headless")
-    argparser.add_argument("--browser-version", "-bv", default=None, help="Which version of Firefox to use. Selenium will download it if it can't find it locally. Defaults to None, which will use your installed Firefox")
-    argparser.add_argument("--firefox-data-dir", "--firefox-data", default=DEFAULT_FIREFOX_DATA_DIR, help=f"Path to Firefox data dir. Defaults to {DEFAULT_FIREFOX_DATA_DIR}")
-    argparser.add_argument("--profile-name", default=DEFAULT_PROFILE_NAME)
-    argparser.add_argument("--continue-if-version-mismatch", action="store_true", default=False)
+def main(args):
 
     platform = system().lower()
     if platform == "":
         print("Couldn't determined platform!")
         exit(1)
 
-    args = argparser.parse_args()
     if args.ci:
         args.headless = True
         #args.force_downloads = True
 
     driver = None
-    makedirs(DEFAULT_OUT_DIR, exist_ok=True)
     options = webdriver.FirefoxOptions()
 
     options.add_argument("about:config")
@@ -151,7 +136,7 @@ def get_preferences_main():
         print("Preferences with no defaults parsed")
         
         if not args.ci:
-            write_file(prefix + "no_defaults_found.json", dumps(no_defaults_found))
+            write_file(prefix + "no_defaults_found.json", dumps(no_defaults_found), args.out_dir)
             print(f"Saved entries without default values to out/{prefix}no_defaults_found.json")
 
 
@@ -188,8 +173,8 @@ def get_preferences_main():
             print("Driver closed")
 
         if len(default_preferences) > 0:
-            write_file(prefix + "defaults.min.json", dumps(default_preferences))
-            write_file(prefix + "defaults.json", dumps(default_preferences, indent=2))
+            write_file(prefix + "defaults.min.json", dumps(default_preferences), args.out_dir)
+            write_file(prefix + "defaults.json", dumps(default_preferences, indent=2), args.out_dir)
             print(f"Saved preferences/defaults to out/{prefix}defaults.json & out/{prefix}defaults.min.json")
         else:
             print("No default preferences found, skipping write")
